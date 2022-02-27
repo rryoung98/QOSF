@@ -6,7 +6,7 @@ from numpy import pi
 # Figure out how to encode integers.
 input_list = [5,7,8,9,1]
 output = 16
-input_list_len = len(input_list)-1
+input_list_len = 3
 int_qubits = output.bit_length()
 
 print("bits required to store ", max(input_list), " = ", int_qubits)
@@ -18,7 +18,7 @@ c = ClassicalRegister(input_list_len)
 # we will do 5 + 7
 qc = QuantumCircuit(q, c)
 # Create 5
-qc.x([q[1], q[3]])
+qc.x([ q[0]])
 print(qc)
 
 def qft_rotations(circuit, n):
@@ -46,20 +46,28 @@ def qft(circuit, n):
 circuit = qft(qc, input_list_len)
 q2 = QuantumRegister(input_list_len)
 circuit.add_register(q2)
-circuit.x([q2[3]]) # add one
+circuit.x([q2[1]])
+# add one
+
 def apply_controlled_phase(circuit):
     """Applies a controlled phase shift to the target qubit"""
-    for qubit in range(1,len(q)+1):
+    for qubit in reversed(range(1,len(q)+1)):
         print(qubit)
         print(len(q))
         for idx in range(0, qubit):
-            circuit.cp(2*pi/2**(idx+1), q2[len(q)-1-idx], q[len(q)-qubit])
+            circuit.cp(2*pi/2**(idx+1), q2[idx], q[qubit-1])
        
     return circuit
-
-circuit = apply_controlled_phase(circuit)
-# apply next integer to add
+circuit.cp(pi, q2[2],q[2])
+circuit.cp(pi/2, q2[1],q[1])
+circuit.cp(pi, q2[2],q[1])
+circuit.cp(pi, q2[2],q[0])
+circuit.cp(pi/2, q2[1],q[0])
+circuit.cp(pi/4, q2[0],q[0])
 print(circuit)
+#circuit = apply_controlled_phase(circuit)
+# apply next integer to add
+#print(circuit)
 # apply inverse qft
 def inverse_qft(circuit, n):
     """Does the inverse QFT on the first n qubits in circuit"""
@@ -69,14 +77,16 @@ def inverse_qft(circuit, n):
     invqft_circ = qft_circ.inverse()
     # And add it to the first n qubits in our existing circuit
     circuit.append(invqft_circ, circuit.qubits[:n])
+    print(circuit,"heys")
     return circuit.decompose() # .decompose() allows us to see the individual gates
 
 # Apply inverse
 circuit = inverse_qft(circuit, input_list_len)
-
-circuit.measure(q, c)  # Measure the qubits
-circuit.draw()
-
+print(circuit)
+# circuit.measure(q, c)  # Measure the qubits
+circuit.measure(q[0],c[0])
+circuit.measure(q[1],c[1])
+circuit.measure(q[2],c[2])
 aer_sim = Aer.get_backend('aer_simulator')
 
 qobj = assemble(circuit, shots=8192)
