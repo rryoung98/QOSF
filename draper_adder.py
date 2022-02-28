@@ -1,6 +1,6 @@
-from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister 
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister ,Aer, assemble
 from numpy import pi
-def qft_rotations(circuit:QuantumCircuit, n:int) -> None:
+def qft_rotations(circuit:QuantumCircuit, n:int) -> QuantumCircuit:
     """QFT without swap on the first n qubits in circuit
     Args:
         circuit (QuantumCircuit): The circuit to apply the QFT to
@@ -20,15 +20,16 @@ def qft_rotations(circuit:QuantumCircuit, n:int) -> None:
         # smaller-angled controlled rotation: 
         circuit.cp(pi/2**(n-qubit), qubit, n)
     qft_rotations(circuit, n)
-    return None
+
 # apply inverse qft
 
 def inverse_qft(circuit, n):
     """Does the inverse QFT on the first n qubits in circuit"""
     # First we create a QFT circuit of the correct size:
-    qft_circ = qft_rotations(QuantumCircuit(n), n)
+    circ = QuantumCircuit(n)
+    qft_rotations(circ, n)
     # Then we take the inverse of this circuit
-    invqft_circ = qft_circ.inverse()
+    invqft_circ = circ.inverse()
     # And add it to the first n qubits in our existing circuit
     circuit.append(invqft_circ, circuit.qubits[:n])
     return circuit.decompose() # .decompose() allows us to see the individual gates
@@ -45,8 +46,9 @@ def draper_adder(num_qubits : int) -> QuantumCircuit:
     """    
     q1 = QuantumRegister(num_qubits+1) # add one for carry
     q2 = QuantumRegister(num_qubits)
-    c1 = ClassicalRegister(num_qubits)
+    c1 = ClassicalRegister(num_qubits+1)
     qc = QuantumCircuit(q1, q2, c1)
+    qc.x([q1[2], q2[2]])
     qft_rotations(qc, num_qubits+1)
 
     # # Apply controlled phase shift to the target qubit
@@ -58,8 +60,17 @@ def draper_adder(num_qubits : int) -> QuantumCircuit:
     # Apply controlled phase shift for carry
     for idx in range(register_len):
         qc.cp(2*pi/2**(idx+2), q2[register_len-idx-1], q1[register_len])
-
     # Apply inverse qft
     inverse_qft(qc, num_qubits+1)
+    # Apply measurement
+    qc.measure(q1, c1)
+    qc = qc.decompose()
+    aer_sim = Aer.get_backend('aer_simulator')
+    qobj = assemble(qc, shots=4096)
+    job = aer_sim.run(qobj)
+    print(job)
+    hist = job.result().get_counts()
+    print(hist)
     return qc
 
+draper_adder(3)

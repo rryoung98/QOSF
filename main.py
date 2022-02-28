@@ -21,5 +21,7 @@ def create_quantum_registers(list_of_int:list=[5,7,8,9,1]) -> dict:
         quantum_circuit_dict[int] = qc
     return quantum_circuit_dict
 
-the_dict = create_quantum_registers(list_of_int)
-print(the_dict[9])
+int_dict = create_quantum_registers(list_of_int)
+# draper_qc = draper_adder(max(list_of_int))
+print(int_dict[5].qasm())
+int_dict[5].add_register(int_dict[7].registers[0])
