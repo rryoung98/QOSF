@@ -8,7 +8,7 @@ from qiskit import QuantumCircuit
 from draper_adder import draper_adder
 
 
-def draper_adder_wrapper(comb: tuple) -> str:
+def draper_adder_wrapper(comb: Tuple) -> str:
     """Wrapper for draper_adder function recurisvely adds all elements in tuple
 
     Args:
@@ -46,7 +46,7 @@ def find_comb_sum(sub_list: list[str]) -> tuple:
 
 # pylint: disable=line-too-long
 # pylint: disable=dangerous-default-value
-def subset_finder(int_list: list[int] = [5, 7, 8, 9, 1], output: int = 16) -> list[(QuantumCircuit, Tuple(str))]:
+def subset_finder(int_list: list[int] = [5, 7, 8, 9, 1], output: int = 16) -> list[(QuantumCircuit, Tuple[str])]:
     """Finds the subset of int_list that adds up to output
 
     Args:
