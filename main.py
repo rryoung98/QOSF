@@ -1,4 +1,4 @@
-from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister 
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister,Aer, assemble 
 
 from draper_adder import draper_adder
 
@@ -25,3 +25,10 @@ int_dict = create_quantum_registers(list_of_int)
 # draper_qc = draper_adder(max(list_of_int))
 print(int_dict[5].qasm())
 int_dict[5].add_register(int_dict[7].registers[0])
+
+aer_sim = Aer.get_backend('aer_simulator')
+qobj = assemble(qc, shots=4096)
+job = aer_sim.run(qobj)
+print(job)
+hist = job.result().get_counts()
+print(hist)
