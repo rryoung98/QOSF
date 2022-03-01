@@ -1,34 +1,82 @@
-from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister,Aer, assemble 
+"""Generalized sum subset finder via Draper method.
+"""
+from itertools import combinations
+from typing import Tuple
+
+from qiskit import QuantumCircuit
 
 from draper_adder import draper_adder
 
-list_of_int = [5,7,8,9,1]
-output = 16
-"{0:b}".format(list_of_int[0])
 
-def create_quantum_registers(list_of_int:list=[5,7,8,9,1]) -> dict:
-    largest_num = max(list_of_int)
-    quantum_circuit_dict = {}
-    for int in list_of_int:
-        q1 = QuantumRegister(largest_num, name=f"q_{int}")
-        qc = QuantumCircuit(q1)
-        binary_rep = "{0:b}".format(int)
-        for i,binary in enumerate(binary_rep):
-            if binary == "1":
-                print(i)
-                qc.x(q1[i])
-        # make dictionary
-        quantum_circuit_dict[int] = qc
-    return quantum_circuit_dict
+def draper_adder_wrapper(comb: tuple) -> str:
+    """Wrapper for draper_adder function recurisvely adds all elements in tuple
 
-int_dict = create_quantum_registers(list_of_int)
-# draper_qc = draper_adder(max(list_of_int))
-print(int_dict[5].qasm())
-int_dict[5].add_register(int_dict[7].registers[0])
+    Args:
+        comb (tuple): The tuple of binary strings to add
 
-aer_sim = Aer.get_backend('aer_simulator')
-qobj = assemble(qc, shots=4096)
-job = aer_sim.run(qobj)
-print(job)
-hist = job.result().get_counts()
-print(hist)
+    Returns:
+        str: The binary string of the sum of the elements in the tuple
+    """
+    if len(comb) == 0:
+        return '0'
+    elif len(comb) == 1:
+        return comb[0]
+    elif len(comb) == 2:
+        return draper_adder(comb[0], comb[1])
+    else:
+        # do a draper adder on the first then recurse
+        return draper_adder(draper_adder_wrapper(comb[1:]), comb[0])
+
+def find_comb_sum(sub_list: list[str]) -> tuple:
+    """Finds the sum of all combinations of the sublist
+
+    Args:
+        sub_list (list[str]): The list of binary strings to add
+
+    Returns:
+        tuple: The tuple with the combination and summation result
+    """
+    comb_list = []
+    draper_sum_list = []
+    for idx in range(len(sub_list)+1):
+        for comb in combinations(sub_list, idx):
+            comb_list.append(comb)
+            draper_sum_list.append(draper_adder_wrapper(comb))
+    return comb_list, draper_sum_list
+
+# pylint: disable=line-too-long
+# pylint: disable=dangerous-default-value
+def subset_finder(int_list: list[int] = [5, 7, 8, 9, 1], output: int = 16) -> list[(QuantumCircuit, Tuple(str))]:
+    """Finds the subset of int_list that adds up to output
+
+    Args:
+        int_list (list[int], optional): The integers that are to sum to the output. Defaults to [5, 7, 8, 9, 1].
+        output (int, optional): The number to sum to. Defaults to 16.
+
+    Raises:
+        ValueError: int_list contains negative values
+
+    Returns:
+        list: list of tuples with the circuit and the elements elements which sum to the output in a tuple
+    """
+    binary_list = ["{0:b}".format(num) for num in int_list]
+    results = []
+    if any(x < 0 for x in int_list):
+        raise ValueError("Draper adder only works for positive integers")
+    # Split the int_list into two parts
+    list_len = len(binary_list)
+    sub_list_1, sub_list_2 = binary_list[list_len//2:], binary_list[:list_len//2]
+    comb_list_1, sum_1 = find_comb_sum(sub_list_1)
+    comb_list_2, sum_2 = find_comb_sum(sub_list_2)
+    # Find the sum of the two sublists
+
+    for i, elem_1 in enumerate(sum_1):
+        for j, elem_2 in enumerate(sum_2):
+            if draper_adder(elem_1, elem_2) == "{0:b}".format(output):
+                valid_subset = comb_list_1[i] + comb_list_2[j]
+                circ = QuantumCircuit(list_len)
+                for idx, elem in enumerate(binary_list):
+                    if elem in valid_subset:
+                        circ.x(idx)
+                results.append((circ, valid_subset))
+    return results

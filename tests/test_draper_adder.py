@@ -7,4 +7,3 @@ import pytest
 # Check adder is correct
 
 # Negative number throws error
-
