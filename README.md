@@ -29,6 +29,7 @@ statement, but this implementation has been generalized to take in other
 positive integers and outputs.
 
 Here is an example adder circuit for `5+7`.
+![circuit](./assets/circuit.png)
 
 
 #### How it works
