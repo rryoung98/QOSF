@@ -3,7 +3,7 @@
 ## Ricky's solution:
 
 Hello, thank you for checking out my Draper adder solution! This problem seemed
-to be the most challenging tome and that was the chief reason why I chose it. As
+to be the most challenging to me and that was the chief reason why I chose it. As
 a bonus, I've generalized it to find the subset to sum for other lists of
 integers and outpus, assuming the integers are not negative.
 
@@ -23,8 +23,10 @@ cd QOSF
 python3 -m pip install -e .
 ```
 
-You can also `pip install draperrry`. https://pypi.org/project/draperrry/. I
-honestly don't know why I made it (it's my first PYPI package) but enjoy QOSF
+You can also `pip install draperrry`. 
+
+Check it out at https://pypi.org/project/draperrry/. 
+I honestly don't know why I made it (it's my first PYPI package) but enjoy QOSF
 people!
 
 ### Implementation
@@ -43,7 +45,7 @@ in the middle strategy to split the list into two and find all the combinations
 which add up to the desired value using the draper adder method.
 
 The draper method is implemented using qiskit and applies a QFT without swap
-gates then a series of controlled phase gates.
+gates then a series of controlled phase gates.Finally it applies an inverse QFT to fix the basis for measurement.
 
 ### Challenges
 
