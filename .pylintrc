@@ -1,0 +1,8 @@
+[MASTER]
+disable=
+        line-too-long,
+        unsubscriptable-object,
+        dangerous-default-value,
+        no-else-return,
+        too-many-locals,
+        consider-using-f-string

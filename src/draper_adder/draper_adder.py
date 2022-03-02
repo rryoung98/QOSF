@@ -1,21 +1,22 @@
 """Quantum circuit that adds two integers via the Draper method.
 """
 from typing import Union
+import logging
 from numpy import pi
 
 
-from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, Aer, assemble
+from qiskit import QuantumCircuit
+from qiskit import QuantumRegister
+from qiskit import ClassicalRegister
+from qiskit import Aer
+from qiskit import assemble
 
-# pylint: disable=line-too-long
+
 def embed_integers(
     circuit: QuantumCircuit, register: QuantumRegister, binary_rep: str
 ) -> QuantumCircuit:
     """Embeds an integer into a circuit
 
-    Args:
-        circuit (QuantumCircuit): The circuit to embed the integer into.
-        register (QuantumRegister): The register to embed the integer into.
-        integer (int): The integer to embed.
 
     Returns:
         QuantumCircuit: The circuit with the integer embedded.
@@ -30,9 +31,6 @@ def embed_integers(
 
 def qft_rotations(circuit: QuantumCircuit, num_qubits: int) -> None:
     """QFT without swap on the first n qubits in circuit
-    Args:
-        circuit (QuantumCircuit): The circuit to apply the QFT to
-        n (int): Number of qubits to apply the QFT to
 
     Returns:
         None
@@ -63,20 +61,23 @@ def inverse_qft(circuit: QuantumCircuit, num_qubits: int) -> QuantumCircuit:
     return circuit.decompose()  # .decompose() allows us to see the individual gates
 
 
-# pylint: disable=unsubscriptable-object
-def draper_adder(int_1: Union[int, str] = 7, int_2: Union[int, str] = 5) -> QuantumCircuit:
+def draper_adder(
+    int_1: Union[int, str] = 7, int_2: Union[int, str] = 5
+) -> QuantumCircuit:
     """Creates a quantum circuit that adds two integers via the Draper method.
         https://arxiv.org/pdf/quant-ph/0008033.pdf
-    Args:
-        int_1 (int): The first integer to add.
-        int_2 (int): The second integer to add.
 
     Returns:
         QuantumCircuit: The quantum circuit with the addition circuit.
     """
+
     if isinstance(int_1, int):
+        if int_1 < 0:
+            raise ValueError("Draper adder only works for positive integers")
         int_1 = "{0:b}".format(int_1)
     if isinstance(int_2, int):
+        if int_2 < 0:
+            raise ValueError("Draper adder only works for positive integers")
         int_2 = "{0:b}".format(int_2)
     num_qubits = max(len(int_2), len(int_1))
     q_1 = QuantumRegister(num_qubits + 1)  # add one for carry
@@ -111,10 +112,10 @@ def draper_adder(int_1: Union[int, str] = 7, int_2: Union[int, str] = 5) -> Quan
     hist = job.result().get_counts()
     keys = [key for key, value in hist.items() if value == max(hist.values())]
     if len(keys) > 1:
-        print("WARNING: Multiple results found. Using first result.")
+        logging.warning("Multiple results found. Using first result.")
     if len(keys) == 0:
-        print("WARNING: No results found. Using 0.")
+        logging.warning(" No results found. Using 0.")
         return 0
     if keys[0].lstrip("0") == "":
         return "0"
-    return keys[0].lstrip('0')
+    return keys[0].lstrip("0")

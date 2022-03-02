@@ -1,3 +1,19 @@
+Metadata-Version: 2.1
+Name: adder-rry
+Version: 0.0.1
+Summary: A small package to add two numbers together within quantum computing
+Home-page: https://github.com/rryoung98/QOSF
+Author: Ricky Young
+Author-email: rickyyoung@qbraid.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # QOSF ADDER CHALLENGE
 
 ## Ricky's solution:
@@ -9,8 +25,6 @@ to be the most challenging and that was the chief reason why I chose this
 
 Please create a conda environment for the module to run in if you do not have
 one: `conda create -n draper python=3.9`
-
-`pip install -r requirements.txt`
 
 Installation You can install from source by cloning this repository and running
 a pip install command in the root directory:
@@ -107,3 +121,5 @@ Steven A. Cuccaro, Thomas G. Draper, Samuel A. Kutin, David Petrie Moulton
 
 Thomas G. Draper (2000). Addition on a Quantum Computer
 (https://arxiv.org/abs/quant-ph/0008033)
+
+
