@@ -5,7 +5,7 @@
 Hello, thank you for checking out my Draper adder solution! This problem seemed
 to be the most challenging to me and that was the chief reason why I chose it. As
 a bonus, I've generalized it to find the subset to sum for other lists of
-integers and outpus, assuming the integers are not negative.
+integers and outputs, assuming the integers are not negative.
 
 ### Getting Started
 
