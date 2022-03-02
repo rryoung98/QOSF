@@ -3,7 +3,7 @@
 ## Ricky's solution:
 
 Hello, thank you for checking out my Draper adder solution! This problem seemed
-to be the most challenging and that was the chief reason why I chose this
+to be the most challenging tome and that was the chief reason why I chose it. As a bonus, I've generalized it to find the subset to sum for other lists of integers and outpus, assuming the integers are not negative. 
 
 ### Getting Started
 
@@ -28,6 +28,10 @@ if they sum. The `subset_finder()` defaults to find the subset for the problem
 statement, but this implementation has been generalized to take in other
 positive integers and outputs.
 
+Here is an example adder circuit for `5+7`.
+![circuit](./assets/circuit.png)
+
+
 #### How it works
 
 The algorithm first converts all the integers to binary and then uses the meet
@@ -35,20 +39,22 @@ in the middle strategy to split the list into two and find all the combinations
 which add up to the desired value using the draper adder method.
 
 The draper method is implemented using qiskit and applies a QFT without swap
-gates then a series of controlled phase gates $$\exp{\frac{2*\pi}{2^n}}$$ where
-n is the index of
+gates then a series of controlled phase gates. 
+
+
 
 ### Challenges
 
-I faced a decent amount of challenges
+I faced a decent amount of challenges but all of them were very rewarding. From building the draper circuit to making sure that the python package was successfully deployed this was a pretty fun weekend. I think looking back at the problems I could have implemented this a lot faster if I paid closer attention to the various implementations of the draper circuit from several papers and the Microsoft tutorial. Some of them were for the modulo addition which I spent a good amount of time varifying. Big O considerations were also significant especially since the nature of arithmetic quantum circuit, the running of the circuit, as well as the combinations would slow the draper adder and would be an exciting topic to explore!
 
 ### Tests
+
+Some test were made to make sure that functions behave as expected. In the case that the pip install fails the requirements.txt is also available and a demo.
 
 ### Conclusion
 
 It was definitely fun doing this project. I'm happy with how relatively robust
-the solution is as well as One thing I wish I worked was to better interpret the
-index register which is underutilized.
+the solution and hope that this work can be considered for the mentorship!
 
 Future improvements include running on allowing the ability to run on various
 simulators and hardware via kwargs and I would hope to add different methods of
