@@ -7,6 +7,8 @@ to be the most challenging to me and that was the chief reason why I chose it. A
 a bonus, I've generalized it to find the subset to sum for other lists of
 integers and outputs, assuming the integers are not negative.
 
+**Note: I worked on this on consecutive late nights and only now realized I didn't implement an oracle. Regardless of the mentorship decision, I'll probably fix it up and extend this package!** 
+
 ### Getting Started
 
 Please create a conda environment for the module to run in if you do not have
