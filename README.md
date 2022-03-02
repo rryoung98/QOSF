@@ -3,7 +3,7 @@
 ## Ricky's solution:
 
 Hello, thank you for checking out my Draper adder solution! This problem seemed
-to be the most challenging and that was the chief reason why I chose this
+to be the most challenging tome and that was the chief reason why I chose it. As a bonus, I've generalized it to find the subset to sum for other lists of integers and outpus, assuming the integers are not negative. 
 
 ### Getting Started
 
