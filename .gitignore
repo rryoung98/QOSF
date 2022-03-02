@@ -14,3 +14,6 @@ __pycache__/
 
 # dist
 dist/
+
+# .egg-info
+.egg-info/

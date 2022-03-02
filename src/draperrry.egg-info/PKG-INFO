@@ -1,11 +1,25 @@
+Metadata-Version: 2.1
+Name: draperrry
+Version: 0.0.1
+Summary: A small package to add two numbers together within quantum computing
+Home-page: https://github.com/rryoung98/QOSF
+Author: Ricky Young
+Author-email: rickyyoung@qbraid.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # QOSF ADDER CHALLENGE
 
 ## Ricky's solution:
 
 Hello, thank you for checking out my Draper adder solution! This problem seemed
-to be the most challenging tome and that was the chief reason why I chose it. As
-a bonus, I've generalized it to find the subset to sum for other lists of
-integers and outpus, assuming the integers are not negative.
+to be the most challenging tome and that was the chief reason why I chose it. As a bonus, I've generalized it to find the subset to sum for other lists of integers and outpus, assuming the integers are not negative. 
 
 ### Getting Started
 
@@ -23,10 +37,6 @@ cd QOSF
 python3 -m pip install -e .
 ```
 
-You can also `pip install draperrry`. https://pypi.org/project/draperrry/. I
-honestly don't know why I made it (it's my first PYPI package) but enjoy QOSF
-people!
-
 ### Implementation
 
 The problem requires checking all combinations of the list of integers to check
@@ -34,7 +44,9 @@ if they sum. The `subset_finder()` defaults to find the subset for the problem
 statement, but this implementation has been generalized to take in other
 positive integers and outputs.
 
-Here is an example adder circuit for `5+7`. ![circuit](./assets/circuit.png)
+Here is an example adder circuit for `5+7`.
+![circuit](./assets/circuit.png)
+
 
 #### How it works
 
@@ -43,25 +55,17 @@ in the middle strategy to split the list into two and find all the combinations
 which add up to the desired value using the draper adder method.
 
 The draper method is implemented using qiskit and applies a QFT without swap
-gates then a series of controlled phase gates.
+gates then a series of controlled phase gates. 
+
+
 
 ### Challenges
 
-I faced a decent amount of challenges but all of them were very rewarding. From
-building the draper circuit to making sure that the python package was
-successfully deployed this was a pretty fun weekend. I think looking back at the
-problems I could have implemented this a lot faster if I paid closer attention
-to the various implementations of the draper circuit from several papers and the
-Microsoft tutorial. Some of them were for the modulo addition which I spent a
-good amount of time varifying. Big O considerations were also significant
-especially since the nature of arithmetic quantum circuit, the running of the
-circuit, as well as the combinations would slow the draper adder and would be an
-exciting topic to explore!
+I faced a decent amount of challenges but all of them were very rewarding. From building the draper circuit to making sure that the python package was successfully deployed this was a pretty fun weekend. I think looking back at the problems I could have implemented this a lot faster if I paid closer attention to the various implementations of the draper circuit from several papers and the Microsoft tutorial. Some of them were for the modulo addition which I spent a good amount of time varifying. Big O considerations were also significant especially since the nature of arithmetic quantum circuit, the running of the circuit, as well as the combinations would slow the draper adder and would be an exciting topic to explore!
 
 ### Tests
 
-Some test were made to make sure that functions behave as expected. In the case
-that the pip install fails the requirements.txt is also available and a demo.
+Some test were made to make sure that functions behave as expected. In the case that the pip install fails the requirements.txt is also available and a demo.
 
 ### Conclusion
 
@@ -125,3 +129,5 @@ Steven A. Cuccaro, Thomas G. Draper, Samuel A. Kutin, David Petrie Moulton
 
 Thomas G. Draper (2000). Addition on a Quantum Computer
 (https://arxiv.org/abs/quant-ph/0008033)
+
+
