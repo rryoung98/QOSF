@@ -68,7 +68,7 @@ that the pip install fails the requirements.txt is also available and a demo.
 ### Conclusion
 
 It was definitely fun doing this project. I'm happy with how relatively robust
-the solution and hope that this work can be considered for the mentorship!
+the solution is and hope that this work can be considered for the mentorship!
 
 Future improvements include running on allowing the ability to run on various
 simulators and hardware via kwargs and I would hope to add different methods of
